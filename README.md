@@ -1,1 +1,2 @@
-# Lynks-server
+# MERN-template
+MERN template
