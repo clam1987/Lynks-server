@@ -26,6 +26,9 @@ const userSchema = new Schema({
   address: {
     type: String
   },
+  delta: {
+    type: Number
+  },
   password: {
     type: String,
     trim: true,
