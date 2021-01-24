@@ -1,6 +1,6 @@
 const db = require("../models");
 const jwt = require("../configs/jwt");
-const { User } = db;
+const { User, LynksAddress } = db;
 
 module.exports = {
     signup: (req, res) => {
@@ -29,6 +29,16 @@ module.exports = {
             return res.status(500).json("Server error, cannot signup");
         }
     },
+    submitAddress: (req, res) => {
+        LynksAddress.create(req.body)
+                    .then(x => {
+                        console.log(x.id)
+                        const { id } = req.params
+                        User.findOneAndUpdate({_id: id}, {$push: { lynksLocation: x.id }}, { new: true })
+                            .then(dbUser => res.json(dbUser))
+                            .catch(err => res.json(err))
+                    });
+    },
     login: (req, res) => {
         try {
             const { id } = req.user
@@ -56,10 +66,19 @@ module.exports = {
     getUser: async (req, res) => {
         try {
             const { id } = req.params
-            const data = await User.findById(id)
+            const data = await User.findById(id).populate('lynksLocation')
             res.status(200).json(data)
         } catch (err) {
             return res.status(500).send(err);
+        }
+    },
+    getLynksAddress: async (req, res) => {
+        try {
+            const data = await LynksAddress.find()
+            return res.status(200).json(data);
+        } catch(err) {
+            console.error(err);
+            return res.status(500).send("Internal Server Error")
         }
     }
 };

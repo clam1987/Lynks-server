@@ -23,6 +23,9 @@ const userSchema = new Schema({
     unique: true,
     match: [/.+@.+\..+/, "Please enter a valid e-mail address"],
   },
+  address: {
+    type: String
+  },
   password: {
     type: String,
     trim: true,
@@ -33,6 +36,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  lynksLocation: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "LynksAddress", 
+    }
+  ]
 });
 
 userSchema.pre("save", function () {
