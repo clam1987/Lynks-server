@@ -24,15 +24,21 @@ const userSchema = new Schema({
     match: [/.+@.+\..+/, "Please enter a valid e-mail address"],
   },
   address: {
-    type: String
+    type: String,
+    required: true
   },
-  delta: {
-    type: Number
+  phoneNumber: {
+    type: String,
   },
+  image: [
+    {
+      type: String,
+    }
+  ],
   password: {
     type: String,
     trim: true,
-    required: "Password is Required",
+    required: true,
     validate: [({ length }) => length >= 6, "Password should be longer."],
   },
   date: {
@@ -44,7 +50,17 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "LynksAddress", 
     }
-  ]
+  ],
+  likedUsers: [
+   {
+      type: Schema.Types.ObjectId,
+      ref: "LikedUsers",
+   }
+  ],
+  maxAvailableLocations: {
+    type: Number,
+    default: 10
+  }
 });
 
 userSchema.pre("save", function () {

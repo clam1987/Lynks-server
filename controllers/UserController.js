@@ -1,10 +1,28 @@
 const db = require("../models");
 const jwt = require("../configs/jwt");
-const { User, LynksAddress } = db;
+const { User } = db;
 
 module.exports = {
+    getAllUsers: async (req, res) => {
+        try {
+            const data = await User.find().populate(['lynksLocation', 'likedUsers']);
+            res.status(200).json(data)
+        } catch(err) {
+            console.error(err)
+            res.status(500).send("Internal Server Error");
+        }
+    },
+    getUser: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const data = await User.findById(id).populate(['lynksLocation', 'likedUsers']);
+            res.status(200).json(data);
+        } catch (err) {
+            return res.status(500).send(err);
+        }
+    },
     signup: (req, res) => {
-        const { email, firstName, lastName, username } = req.body
+        const { email, firstName, lastName, username } = req.body;
         try {
             if(!email || !firstName || !lastName || !username) {
                 return res.status(400).send("Please fill out all fields");
@@ -12,7 +30,7 @@ module.exports = {
             User.findOne({$or: [{email}, {username}]}).then(user => {
                 if(user === null) {
                     User.create(req.body)
-                    return res.status(200).json(user);
+                    return res.status(200).json("User Created!");
                 };
 
                 if(email === user.email) {
@@ -28,16 +46,6 @@ module.exports = {
         } catch (err) {
             return res.status(500).json("Server error, cannot signup");
         }
-    },
-    submitAddress: (req, res) => {
-        LynksAddress.create(req.body)
-                    .then(x => {
-                        console.log(x.id)
-                        const { id } = req.params
-                        User.findOneAndUpdate({_id: id}, {$push: { lynksLocation: x.id }}, { new: true })
-                            .then(dbUser => res.json(dbUser))
-                            .catch(err => res.json(err))
-                    });
     },
     login: (req, res) => {
         try {
@@ -63,22 +71,4 @@ module.exports = {
         }
         req.logout();
     },
-    getUser: async (req, res) => {
-        try {
-            const { id } = req.params
-            const data = await User.findById(id).populate('lynksLocation')
-            res.status(200).json(data)
-        } catch (err) {
-            return res.status(500).send(err);
-        }
-    },
-    getLynksAddress: async (req, res) => {
-        try {
-            const data = await LynksAddress.find()
-            return res.status(200).json(data);
-        } catch(err) {
-            console.error(err);
-            return res.status(500).send("Internal Server Error")
-        }
-    }
 };

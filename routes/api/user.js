@@ -2,12 +2,9 @@ const router = require("express").Router();
 const userController = require("../../controllers/UserController");
 const passport = require("../../configs/passport");
 
+router.route("/").get(userController.getAllUsers);
+
 router.route("/:id").get(userController.getUser);
-
-router.route("/lynkaddress/:id")
-  .get(userController.getLynksAddress)
-  .post(userController.submitAddress);
-
 
 router.route("/signup").post(userController.signup);
 
