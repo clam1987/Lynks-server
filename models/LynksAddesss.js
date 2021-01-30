@@ -5,12 +5,18 @@ const lynksAddressSchema = new Schema({
   address: {
     type: String,
   },
-  lat: {
+  latitude: {
     type: Number,
   },
-  long: {
+  longitude: {
     type: Number,
-  }
+  },
+  user: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 });
 
 const LynksAddress = mongoose.model("LynksAddress", lynksAddressSchema);
