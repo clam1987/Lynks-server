@@ -11,7 +11,7 @@ const lynksAddressSchema = new Schema({
   longitude: {
     type: Number,
   },
-  user: [
+  users: [
     {
       type: Schema.Types.ObjectId,
       ref: "User"
