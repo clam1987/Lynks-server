@@ -11,6 +11,10 @@ const lynksAddressSchema = new Schema({
   longitude: {
     type: Number,
   },
+  location: {
+    type: [Number],
+    index: "2dsphere"
+  },
   users: [
     {
       type: Schema.Types.ObjectId,
