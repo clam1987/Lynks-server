@@ -1,5 +1,6 @@
 const db = require("../models");
 const jwt = require("../configs/jwt");
+const { LynksAddress } = require("../models");
 const { User } = db;
 
 module.exports = {
@@ -8,7 +9,17 @@ module.exports = {
             const data = await User.find().populate(['lynksLocation', 'likedUsers']);
             res.status(200).json(data)
         } catch(err) {
-            console.error(err)
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        }
+    },
+    getAllUsersInLocation: async ({ params }, res) => {
+        try {
+            const { locationId } = params;
+            const data = await LynksAddress.findById(locationId).populate("users");
+            res.status(200).send(data); 
+        } catch(err) {
+            console.error(err);
             res.status(500).send("Internal Server Error");
         }
     },
@@ -18,6 +29,7 @@ module.exports = {
             const data = await User.findById(id).populate(['lynksLocation', 'likedUsers']);
             res.status(200).json(data);
         } catch (err) {
+            console.error(err);
             return res.status(500).send(err);
         }
     },
@@ -44,6 +56,7 @@ module.exports = {
             })
 
         } catch (err) {
+            console.error(err);
             return res.status(500).json("Server error, cannot signup");
         }
     },
@@ -52,6 +65,7 @@ module.exports = {
             const { id } = req.user
             res.status(200).json({ token: jwt.sign({id}), token_type: "Bearer" });
         } catch (err) {
+            console.error(err);
             return res.status(500).send("Server error, cannot login");
         }
     },
@@ -67,6 +81,7 @@ module.exports = {
                 res.send({ message: "no user to logout" });
             };
         } catch (err) {
+            console.error(err);
             return res.status(500).send(err);
         }
         req.logout();

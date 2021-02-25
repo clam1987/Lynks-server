@@ -27,6 +27,12 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+  },
+  age: {
+    type: String,
+  },
   phoneNumber: {
     type: String,
   },

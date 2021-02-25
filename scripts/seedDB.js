@@ -62,14 +62,33 @@ const locationSeed = [
     }
 ];
 
-LynksAddress
-    .remove({})
-    .then(() => LynksAddress.collection.insertMany(locationSeed))
-    .then(data => {
-        console.log(`${data.result.n} records inserted!`);
-        process.exit(0);
-    })
-    .catch(err => {
-        console.error(err);
-        process.exit(1);
-    })
+const createTestUser = {
+    "firstName": "Wilson",
+    "lastName": "Lam",
+    "username": "test",
+    "address": "500 Baldwin Ave. Temple City CA, 91780",
+    "password": "test1234",
+    "gender": "male",
+    "phoneNumber": "555-555-5555",
+    "email": "w@l.com",
+    "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis quam dolor laudantium dolorum molestiae exercitationem officiis quisquam consequuntur? Laborum in rerum temporibus numquam. Consequatur sed corrupti voluptatibus vel ea ut nulla iusto nemo laborum quae, earum facilis possimus placeat ratione.",
+    "age": "33"
+}
+
+const seedUserAndAddresses = async () => {
+    User.create(createTestUser);
+    LynksAddress
+        .remove({})
+        .then(() => LynksAddress.collection.insertMany(locationSeed))
+        .then(data => {
+            console.log(`${data.result.n} records inserted!`);
+            process.exit(0);
+        })
+        .catch(err => {
+            console.error(err);
+            process.exit(1);
+        })
+};
+
+seedUserAndAddresses();
+

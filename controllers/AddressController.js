@@ -29,7 +29,7 @@ module.exports = {
           res.status(500).send("location already exists");
         } else if (duplicateAddressExists !== -1 && !userHasSameAddress) {
           await LynksAddress.findOneAndUpdate(
-            { id: lynksAddress[duplicateAddressExists]._id },
+            { _id: lynksAddress[duplicateAddressExists]._id },
             { $push: { users: id } },
             { new: true }
           );
@@ -61,7 +61,7 @@ module.exports = {
         res.status(500).send("You reached the max saved locations allowed");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return res.status(500).send("Internal Server Error");
     }
   },
@@ -76,11 +76,10 @@ module.exports = {
               type: "Point",
               coordinates: [lng, lat],
             },
-            $maxDistance: 40233.6
+            $maxDistance: 24140.2
           }
         }
       }).populate("users");
-      console.log()
       return res.status(200).json(data);
     } catch (err) {
       console.error(err);
