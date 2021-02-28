@@ -67,6 +67,12 @@ const userSchema = new Schema({
       ref: "LikedUsers",
    }
   ],
+  matchUsers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "MatchedUsers",
+    }
+  ],
   maxAvailableLocations: {
     type: Number,
     default: 10

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const likedUsersController = require("../../controllers/LikedUsersControl");
+const likedUsersController = require("../../controllers/LikedUsersController");
 
 router
   .route("/:id")
