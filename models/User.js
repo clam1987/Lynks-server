@@ -70,7 +70,7 @@ const userSchema = new Schema({
   matchUsers: [
     {
       type: Schema.Types.ObjectId,
-      ref: "MatchedUsers",
+      ref: "User",
     }
   ],
   maxAvailableLocations: {

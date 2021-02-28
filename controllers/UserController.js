@@ -86,4 +86,14 @@ module.exports = {
         }
         req.logout();
     },
+    updateMatch: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { matchUserId } = req.body
+            const data = await User.findOneAndUpdate({ _id: id }, { $push: { matchUsers: matchUserId } }, { new: true })
+            res.status(200).json(data)
+        } catch(err) {
+            console.error(err);
+        }
+    }
 };

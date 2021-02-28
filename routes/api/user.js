@@ -10,6 +10,8 @@ router.route("/signup").post(userController.signup);
 
 router.route("/location/:locationId").get(userController.getAllUsersInLocation);
 
+router.route("/matched/:id").put(userController.updateMatch);
+
 router
   .route("/login")
   .post(passport.authenticate("local"), userController.login);
