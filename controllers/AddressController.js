@@ -95,4 +95,14 @@ module.exports = {
         return res.status(500).send("Internal Server Error");
     }
 },
+  updateAddressUser: async (req, res) => {
+    try {
+      const { addressid } = req.params;
+      const { userId } = req.body
+      const data = await LynksAddress.findOneAndUpdate({ _id: addressid }, { $push: { users: userId } }, { new: true });
+      res.json(data); 
+    } catch(err) {
+      console.error(err)
+    }
+  },
 };

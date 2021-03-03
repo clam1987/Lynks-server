@@ -10,5 +10,8 @@ router.route("/25/:lat?/:lng?")
 router.route("/:id")
   .put(addressController.submitAddress);
 
+router.route("/single/:addressid")
+  .put(addressController.updateAddressUser);
+
 
 module.exports = router;
