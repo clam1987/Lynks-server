@@ -3,4 +3,5 @@ module.exports = {
   LynksAddress: require('./LynksAddesss'),
   LikedUsers: require("./LikedUsers"),
   MatchUsers: require("./MatchedUsers"),
+  TestUser: require("./TestUser"),
 };

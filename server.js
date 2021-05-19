@@ -24,3 +24,5 @@ app.use(apiRoutes);
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lynksdb", { useNewUrlParser: true, useFindAndModify: false });
 
 app.listen(PORT, () => console.log(`The server has started on PORT: ${PORT}`));
+
+module.exports = app;

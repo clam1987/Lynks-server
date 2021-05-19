@@ -1,6 +1,6 @@
 const addressFormatter = data => data.replace(/[^a-z0-9]+/gi, '-').replace(/^-+/, '').replace(/-+$/, '').toLowerCase();
 
-const streetFormatte = data => {
+const streetFormatter = data => {
     const USPSMap = {
         "apartment": "Apt",
         "avenue": "Ave",

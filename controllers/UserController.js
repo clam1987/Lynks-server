@@ -1,6 +1,6 @@
 const db = require("../models");
 const jwt = require("../configs/jwt");
-const { LynksAddress } = require("../models");
+const { LynksAddress, TestUser } = require("../models");
 const { User } = db;
 
 module.exports = {
@@ -94,6 +94,46 @@ module.exports = {
             res.status(200).json(data)
         } catch(err) {
             console.error(err);
+        }
+    },
+    createTestUser: async (req, res) => {
+        try {
+            const { email, firstName, lastName, username } = req.body;
+            try {
+                if(!email || !firstName || !lastName || !username) {
+                    return res.status(400).send("Please fill out all fields");
+                }
+                const user = await TestUser.findOne({$or: [{email}, {username}]})
+                    if(user === null) {
+                        TestUser.create(req.body)
+                        return res.status(200).json(req.body);
+                    };
+    
+                    if(email === user.email) {
+                        return res.status(400).send("Email already exists. Please use a different email.");
+                    };
+    
+                    if (username === user.username) {
+                        return res.status(400).send("Username already exists. Please use a different username.");
+                    };
+    
+             
+    
+            } catch (err) {
+                console.error(err);
+                return res.status(500).json("Server error, cannot signup");
+            }
+        } catch(err) {
+           console.error(err)
+        }
+    },
+    getTestUser: async (req, res) => {
+        try {
+            const data = await TestUser.find().populate(['lynksLocation', 'likedUsers']);
+            res.status(200).json(data)
+        } catch(err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
         }
     }
 };
